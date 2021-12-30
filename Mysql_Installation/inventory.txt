@@ -1,5 +1,5 @@
-target1 ansible_host=172.26.67.233 ansible_ssh_pass=root@123
-target2 ansible_host=172.26.65.205 ansible_ssh_pass=root@123
+target1 ansible_host=172.26.67.233 ansible_ssh_pass=xxxxxxxx
+target2 ansible_host=172.26.65.205 ansible_ssh_pass=xxxxxxx
 
 [web]
 target1
