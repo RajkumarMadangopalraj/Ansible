@@ -1,0 +1,42 @@
+-
+  name: Mysql Setup for Hive
+  hosts: database
+  tasks:
+    -
+     name: Creates directory
+     file:
+       path: /root/RPM
+       state: directory
+       mode: '0777'
+    -
+      name: Installing Wget using YUM
+      yum:
+        name: wget
+        state: latest
+    -
+     name: Pull the Mysql RPM
+     get_url:
+       url: https://dev.mysql.com/get/mysql57-community-release-el7-9.noarch.rpm
+       dest: /root/RPM/mysql57-community-release-el7-9.noarch.rpm
+
+    - name: Check if Mysql community is installed or not
+      command: rpm -q mysql57-community-release-el7-9.noarch
+      register: rpm_check
+
+    -
+      name: Installing Mysql 5.7 if it is not installed
+      command: rpm -ivh /root/RPM/mysql57-community-release-el7-9.noarch.rpm
+      when: rpm_check.stdout.find('is not installed') != -1
+      args:
+        warn: false
+    -
+      name: Installing Desired Mysql Packages
+      command: yum install mysql-community-common.x86_64 mysql-community-server.x86_64 mysql-community-client.x86_64 mysql-community-libs.x86_64 -y
+      args:
+        warn: false
+    -
+      name: Start the Mysql Service
+      service:
+        name: mysqld
+        state: started
+        enabled: true

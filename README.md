@@ -1,0 +1,1 @@
+Using this Ansible playbook you can download Mysql 5.7 RPM and install it and bring up the service in Centos.
